@@ -3,7 +3,7 @@ package com.twitchcollector.callbackconsumer.callback.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitchcollector.callbackconsumer.callback.rest.resource.CallbackResource;
 
-public class RevocationV1 {
+public class RevocationReceivedV1 {
 
     private final String messageId;
     private final Integer messageRetry;
@@ -14,14 +14,14 @@ public class RevocationV1 {
     private final Integer subscriptionVersion;
     private final CallbackResource callback;
 
-    public RevocationV1(@JsonProperty("messageId") String messageId,
-                        @JsonProperty("messageRetry") Integer messageRetry,
-                        @JsonProperty("messageType") String messageType,
-                        @JsonProperty("messageSignature") String messageSignature,
-                        @JsonProperty("messageTimestamp") String messageTimestamp,
-                        @JsonProperty("subscriptionType") String subscriptionType,
-                        @JsonProperty("subscriptionVersion") Integer subscriptionVersion,
-                        @JsonProperty("callback") CallbackResource callback) {
+    public RevocationReceivedV1(@JsonProperty("messageId") String messageId,
+                                @JsonProperty("messageRetry") Integer messageRetry,
+                                @JsonProperty("messageType") String messageType,
+                                @JsonProperty("messageSignature") String messageSignature,
+                                @JsonProperty("messageTimestamp") String messageTimestamp,
+                                @JsonProperty("subscriptionType") String subscriptionType,
+                                @JsonProperty("subscriptionVersion") Integer subscriptionVersion,
+                                @JsonProperty("callback") CallbackResource callback) {
         this.messageId = messageId;
         this.messageRetry = messageRetry;
         this.messageType = messageType;

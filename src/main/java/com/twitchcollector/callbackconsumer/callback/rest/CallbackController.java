@@ -3,8 +3,9 @@ package com.twitchcollector.callbackconsumer.callback.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twitchcollector.callbackconsumer.callback.CallbackService;
-import com.twitchcollector.callbackconsumer.callback.dto.NotificationV1;
-import com.twitchcollector.callbackconsumer.callback.dto.RevocationV1;
+import com.twitchcollector.callbackconsumer.callback.dto.ChallengeReceivedV1;
+import com.twitchcollector.callbackconsumer.callback.dto.NotificationReceivedV1;
+import com.twitchcollector.callbackconsumer.callback.dto.RevocationReceivedV1;
 import com.twitchcollector.callbackconsumer.callback.rest.resource.CallbackResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,16 +37,18 @@ public class CallbackController {
                                              @RequestBody CallbackResource resource) throws JsonProcessingException {
         switch (messageType) {
             case "notification" -> {
-                final var notification = new NotificationV1(messageId, messageRetry, messageType, messageSignature, messageTimestamp, subscriptionType, subscriptionVersion, resource);
-                callbackService.saveNotification(notification);
+                final var notificationReceived = new NotificationReceivedV1(messageId, messageRetry, messageType, messageSignature, messageTimestamp, subscriptionType, subscriptionVersion, resource);
+                callbackService.saveNotificationReceived(notificationReceived);
                 return ResponseEntity.ok().build();
             }
             case "revocation" -> {
-                final var revocation = new RevocationV1(messageId, messageRetry, messageType, messageSignature, messageTimestamp, subscriptionType, subscriptionVersion, resource);
-                callbackService.saveRevocation(revocation);
+                final var revocationReceived = new RevocationReceivedV1(messageId, messageRetry, messageType, messageSignature, messageTimestamp, subscriptionType, subscriptionVersion, resource);
+                callbackService.saveRevocationReceived(revocationReceived);
                 return ResponseEntity.ok().build();
             }
             case "webhook_callback_verification" -> {
+                final var challengeReceived = new ChallengeReceivedV1(messageId, messageRetry, messageType, messageSignature, messageTimestamp, subscriptionType, subscriptionVersion, resource);
+                callbackService.saveChallengeReceived(challengeReceived);
                 logger.info("Returning challenge: {} for subscription id: {}", resource.getChallenge(), resource.getSubscription().getId());
                 return ResponseEntity.ok(resource.getChallenge().orElseThrow());
             }
